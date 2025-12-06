@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from pydantic import ValidationError
 
-from app.schemas import OrderItem, Order, FilteredOrder
+from app.schemas import OrderItem, Order, FilteredOrder, StatsSummary
 
 
 class TestOrderItem:
@@ -146,3 +146,26 @@ class TestFilteredOrder:
         # Test that currency is excluded when serializing
         order_dict = filtered_order.model_dump()
         assert "currency" not in order_dict
+
+
+class TestStatsSummary:
+    """Tests for StatsSummary schema."""
+
+    def test_valid_stats_summary(self):
+        """Test creating a valid StatsSummary."""
+        stats = StatsSummary(
+            total_orders=100,
+            total_revenue=50000.0,
+            average_order_value=500.0,
+            orders_per_category={
+                "Rings": 40, "Necklaces": 35, "Earrings": 25
+            },
+            revenue_per_category={
+                "Rings": 20000.0, "Necklaces": 20000.0, "Earrings": 10000.0
+            }
+        )
+        assert stats.total_orders == 100
+        assert stats.total_revenue == 50000.0
+        assert stats.average_order_value == 500.0
+        assert stats.orders_per_category["Rings"] == 40
+        assert stats.revenue_per_category["Necklaces"] == 20000.0

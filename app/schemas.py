@@ -85,3 +85,18 @@ class FilteredOrder(Order):
     Represents a filtered order response (excludes currency field).
     """
     currency: str = Field(exclude=True)
+
+
+class StatsSummary(BaseModel):
+    """
+    Represents the summary of statistics.
+    """
+    total_orders: int = Field(description="The total number of orders")
+    total_revenue: float = Field(description="The total revenue of all orders")
+    average_order_value: float = Field(description="The average order value")
+    orders_per_category: dict[str, int] = Field(
+        description="The number of orders per category"
+    )
+    revenue_per_category: dict[str, float] = Field(
+        description="The revenue per category"
+    )
