@@ -7,7 +7,18 @@ class OrderRepository:
     Represents the repository for orders.
     """
 
-    def __init__(self):
+    _instance = None
+
+    # Use the singleton pattern to get the order repository instance.
+    # To keep the state of the repository between requests.
+    # In this case, we save the data in the memory.
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._init_storage()
+        return cls._instance
+
+    def _init_storage(self):
         self.orders: Dict[str, Order] = {}
         self._indexes: Dict[str, Dict[str, Set[str]]] = {
             'customer_id': {}, 'category': {}
@@ -47,14 +58,14 @@ class OrderRepository:
         Returns all orders for a given customer ID.
         """
         order_ids = self._indexes['customer_id'].get(customer_id, set())
-        return [self.orders[order_id] for order_id in order_ids]
+        return [self.orders[order_id] for order_id in sorted(order_ids)]
 
     def get_orders_by_category(self, category: str) -> List[Order]:
         """
         Returns all orders for a given category.
         """
         order_ids = self._indexes['category'].get(category, set())
-        return [self.orders[order_id] for order_id in order_ids]
+        return [self.orders[order_id] for order_id in sorted(order_ids)]
 
     def get_filtered_orders_by_indexes(
             self,
@@ -69,7 +80,8 @@ class OrderRepository:
             cust_ids = self._indexes['customer_id'].get(customer_id, set())
             cat_ids = self._indexes['category'].get(category.lower(), set())
             all_order_ids = cust_ids.intersection(cat_ids)
-            return [self.orders[order_id] for order_id in all_order_ids]
+            sorted_ids = sorted(all_order_ids)
+            return [self.orders[order_id] for order_id in sorted_ids]
         elif customer_id:
             # Return all orders filtered by customer_id
             return self.get_orders_by_customer_id(customer_id)
@@ -77,8 +89,7 @@ class OrderRepository:
             # Return all orders filtered by category
             return self.get_orders_by_category(category.lower())
 
-        # Return all orders without filtering
-        return list(self.orders.values())
+        return sorted(list(self.orders.values()), key=lambda o: o.order_id)
 
     def paginate_orders(
             self, orders: List[Order], offset: int = 0, limit: int = -1
@@ -181,3 +192,10 @@ class OrderRepository:
         Checks if an order ID exists in the repository.
         """
         return self.orders.get(order_id) is not None
+
+    def clear_storage(self) -> None:
+        """
+        Clears all orders and indexes from the repository.
+        Useful for testing to reset the singleton state.
+        """
+        self._init_storage()
