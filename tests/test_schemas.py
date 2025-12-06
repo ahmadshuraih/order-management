@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from pydantic import ValidationError
 
-from app.schemas import OrderItem, Order
+from app.schemas import OrderItem, Order, FilteredOrder
 
 
 class TestOrderItem:
@@ -119,3 +119,30 @@ class TestOrder:
                 currency="USD"
             )
         assert "invalid_items" in str(exc_info.value)
+
+
+class TestFilteredOrder:
+    """Tests for FilteredOrder schema."""
+
+    def test_valid_filtered_order(self):
+        """Test creating a valid FilteredOrder."""
+        timestamp = datetime(2024, 1, 15, 10, 30, 0)
+        items = [
+            OrderItem(
+                sku="JEW-001", quantity=2, unit_price=99.99, category="Rings"
+            ),
+        ]
+        filtered_order = FilteredOrder(
+            order_id="ORD-001",
+            customer_id="CUST-001",
+            order_timestamp=timestamp,
+            items=items,
+            currency="USD"
+        )
+        assert filtered_order.order_id == "ORD-001"
+        assert filtered_order.customer_id == "CUST-001"
+        assert filtered_order.currency == "USD"  # Field exists in model
+
+        # Test that currency is excluded when serializing
+        order_dict = filtered_order.model_dump()
+        assert "currency" not in order_dict

@@ -77,3 +77,11 @@ class Order(BaseModel):
                 item.quantity * item.unit_price for item in self.items
             )
         return self
+
+
+# API Response Schemas
+class FilteredOrder(Order):
+    """
+    Represents a filtered order response (excludes currency field).
+    """
+    currency: str = Field(exclude=True)
