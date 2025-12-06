@@ -1,0 +1,379 @@
+{
+	"info": {
+		"_postman_id": "93b84d0c-18ad-437d-afb1-454a69653fc7",
+		"name": "My Jewellery",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "7133511"
+	},
+	"item": [
+		{
+			"name": "Query Orders",
+			"item": [
+				{
+					"name": "Get all orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by customer id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?customer_id=C001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "customer_id",
+									"value": "C001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by min total",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?min_total=22",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "min_total",
+									"value": "22"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by max total",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?max_total=23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "max_total",
+									"value": "23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders by category",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?category=books",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "books"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders limited",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?limit=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get orders offset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/orders?offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ingest Orders",
+			"item": [
+				{
+					"name": "Add orders batch (good)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"order_id\": \"A123\",\r\n    \"customer_id\": \"C001\",\r\n    \"order_timestamp\": \"2024-01-12T14:23:03Z\",\r\n    \"items\": [\r\n      {\r\n        \"sku\": \"SKU-1\",\r\n        \"quantity\": 2,\r\n        \"unit_price\": 10.5,\r\n        \"category\": \"Books\"\r\n      }\r\n    ],\r\n    \"currency\": \"EUR\"\r\n  },\r\n  {\r\n    \"order_id\": \"A124\",\r\n    \"customer_id\": \"C002\",\r\n    \"order_timestamp\": \"2024-01-12T15:40:00Z\",\r\n    \"items\": [\r\n      {\r\n        \"sku\": \"SKU-2\",\r\n        \"quantity\": 1,\r\n        \"unit_price\": 25.0,\r\n        \"category\": \"Electronics\"\r\n      }\r\n    ],\r\n    \"currency\": \"EUR\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders/batch"
+					},
+					"response": []
+				},
+				{
+					"name": "Add orders batch (id exists)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"order_id\": \"A123\",\r\n    \"customer_id\": \"C001\",\r\n    \"order_timestamp\": \"2024-01-12T14:23:03Z\",\r\n    \"items\": [\r\n      {\r\n        \"sku\": \"SKU-1\",\r\n        \"quantity\": 2,\r\n        \"unit_price\": 10.5,\r\n        \"category\": \"books\"\r\n      }\r\n    ],\r\n    \"currency\": \"EUR\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders/batch"
+					},
+					"response": []
+				},
+				{
+					"name": "Add orders batch (no items)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"order_id\": \"A125\",\r\n    \"customer_id\": \"C001\",\r\n    \"order_timestamp\": \"2024-01-12T14:23:03Z\",\r\n    \"items\": [],\r\n    \"currency\": \"EUR\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders/batch"
+					},
+					"response": []
+				},
+				{
+					"name": "Add orders batch (min quantity)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"order_id\": \"A126\",\r\n    \"customer_id\": \"C001\",\r\n    \"order_timestamp\": \"2024-01-12T14:23:03Z\",\r\n    \"items\": [\r\n      {\r\n        \"sku\": \"SKU-1\",\r\n        \"quantity\": -2,\r\n        \"unit_price\": 10.5,\r\n        \"category\": \"books\"\r\n      }\r\n    ],\r\n    \"currency\": \"EUR\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders/batch"
+					},
+					"response": []
+				},
+				{
+					"name": "Add orders batch (min price)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"order_id\": \"A126\",\r\n    \"customer_id\": \"C001\",\r\n    \"order_timestamp\": \"2024-01-12T14:23:03Z\",\r\n    \"items\": [\r\n      {\r\n        \"sku\": \"SKU-1\",\r\n        \"quantity\": 2,\r\n        \"unit_price\": -10.5,\r\n        \"category\": \"books\"\r\n      }\r\n    ],\r\n    \"currency\": \"EUR\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/orders/batch"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Summary Statistics",
+			"item": [
+				{
+					"name": "Get aggregated statistics",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/stats/summary"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

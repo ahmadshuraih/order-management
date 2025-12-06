@@ -110,7 +110,7 @@ class TestAddOrders:
         assert "ORD-003" in repo.orders
 
         assert len(result["failed"]) == 1
-        assert result["failed"][0]["reason"] == "invalid_quantity"
+        assert result["failed"][0].reason == "invalid_quantity"
         assert "ORD-002" not in repo.orders
 
     def test_add_orders_with_duplicate_order_id(self):
@@ -183,7 +183,8 @@ class TestAddOrders:
 
         assert result["ingested"] == 0
         assert len(result["failed"]) == 1
-        assert result["failed"][0]["order_id"] == "invalid_order_id"
+        assert result["failed"][0].order_id == "unknown"
+        assert result["failed"][0].reason == "missing_order_id"
 
 
 class TestGetFilteredOrders:

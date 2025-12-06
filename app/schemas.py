@@ -1,8 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import (
-    BaseModel, Field, field_validator, model_validator
-)
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 # Database Schemas
@@ -99,4 +97,24 @@ class StatsSummary(BaseModel):
     )
     revenue_per_category: dict[str, float] = Field(
         description="The revenue per category"
+    )
+
+
+class FailedOrder(BaseModel):
+    """
+    Represents a failed order entry.
+    """
+    order_id: str = Field(description="The ID of the failed order")
+    reason: str = Field(description="The reason for failure")
+
+
+class BatchOrderResponse(BaseModel):
+    """
+    Represents the response from a batch order ingestion.
+    """
+    ingested: int = Field(
+        description="The number of successfully ingested orders"
+    )
+    failed: List[FailedOrder] = Field(
+        description="List of failed orders with reasons"
     )

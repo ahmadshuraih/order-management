@@ -2,7 +2,14 @@ import pytest
 from datetime import datetime
 from pydantic import ValidationError
 
-from app.schemas import OrderItem, Order, FilteredOrder, StatsSummary
+from app.schemas import (
+    OrderItem,
+    Order,
+    FilteredOrder,
+    StatsSummary,
+    FailedOrder,
+    BatchOrderResponse
+)
 
 
 class TestOrderItem:
@@ -169,3 +176,37 @@ class TestStatsSummary:
         assert stats.average_order_value == 500.0
         assert stats.orders_per_category["Rings"] == 40
         assert stats.revenue_per_category["Necklaces"] == 20000.0
+
+
+class TestFailedOrder:
+    """Tests for FailedOrder schema."""
+
+    def test_valid_failed_order(self):
+        """Test creating a valid FailedOrder."""
+        failed_order = FailedOrder(
+            order_id="ORD-001",
+            reason="Invalid customer ID"
+        )
+        assert failed_order.order_id == "ORD-001"
+        assert failed_order.reason == "Invalid customer ID"
+
+
+class TestBatchOrderResponse:
+    """Tests for BatchOrderResponse schema."""
+
+    def test_valid_batch_order_response(self):
+        """Test creating a valid BatchOrderResponse."""
+        failed_orders = [
+            FailedOrder(order_id="ORD-001", reason="Invalid data"),
+            FailedOrder(order_id="ORD-002", reason="Missing field"),
+        ]
+        response = BatchOrderResponse(
+            ingested=5,
+            failed=failed_orders
+        )
+        assert response.ingested == 5
+        assert len(response.failed) == 2
+        assert response.failed[0].order_id == "ORD-001"
+        assert response.failed[0].reason == "Invalid data"
+        assert response.failed[1].order_id == "ORD-002"
+        assert response.failed[1].reason == "Missing field"

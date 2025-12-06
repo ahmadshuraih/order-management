@@ -1,4 +1,4 @@
-from app.schemas import Order, StatsSummary, FilteredOrder
+from app.schemas import Order, StatsSummary, FilteredOrder, FailedOrder
 from app.repository import OrderRepository
 from typing import List, Dict, Any
 from pydantic import ValidationError
@@ -21,10 +21,14 @@ def add_orders(
             order = Order(**data)
             orders_to_add.append(order)
         except ValidationError as e:
-            # Extract the error message
-            error = e.errors()[0]['msg'].replace('Value error, ', '')
-            order_id = data.get('order_id') or "invalid_order_id"
-            failed.append({"order_id": order_id, "reason": error})
+            # Extract the error message and order_id
+            order_id = data.get('order_id', 'unknown')
+            error = (
+                'missing_order_id'
+                if order_id == 'unknown'
+                else e.errors()[0]['msg']
+            ).replace('Value error, ', '')
+            failed.append(FailedOrder(order_id=order_id, reason=error))
 
     # Add orders to repository and merge failed orders
     result = repository.add_orders(orders_to_add)
